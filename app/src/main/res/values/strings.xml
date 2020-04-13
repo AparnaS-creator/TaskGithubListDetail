@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ListAssignment</string>
+    <string name="no_internet">No Internet</string>
+    <string name="no_record">No record found</string>
+
+    <string name="element_text">Element</string>
+    <string name="item_element_text">This is element #</string>
+    <string name="middle">This is the middle!</string>
+    <string name="watcher_txt">Watcher\'s count</string>
+
+</resources>
