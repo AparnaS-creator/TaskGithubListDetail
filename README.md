@@ -1,2 +1,2 @@
 # TaskAssignement
-Listview with Pull to refresh funcationality
+Recyclerview with Github repository API to filter the data using SearchView, MVVM, Live Data, Retrofit
