@@ -1,4 +1,5 @@
 package com.assignment.listassignment.repository
+import com.assignment.listassignment.utill.AppInstance
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,7 +16,10 @@ import java.util.concurrent.TimeUnit
 class ApiUtilities {
     companion object {
 
-        val BASE_URL = WebConstants.SERVER_URL
+
+         var   BASE_URL=WebConstants.SERVER_URL
+
+
         private val httpClient = OkHttpClient.Builder()
         private val builder = Retrofit.Builder()
             .baseUrl(BASE_URL).addCallAdapterFactory(RxJava2CallAdapterFactory.create())

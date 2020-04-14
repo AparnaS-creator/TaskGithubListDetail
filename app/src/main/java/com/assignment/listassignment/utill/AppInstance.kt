@@ -10,6 +10,8 @@ object AppInstance {
 
     private var appInstance: AppInstance? = null
     var newsDataObj: NewsListResponse? = null
+    var flagBaseAPI:Boolean=false
+    var contributor_url:String=""
 
     //find Doc
     var modeType:String = ""

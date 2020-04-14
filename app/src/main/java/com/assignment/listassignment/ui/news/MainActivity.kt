@@ -1,5 +1,6 @@
 package com.assignment.listassignment.ui.news
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -14,8 +15,8 @@ import com.assignment.listassignment.databinding.ActivityMainBinding
 import com.assignment.listassignment.model.newlist.ItemList
 import com.assignment.listassignment.model.newlist.NewsListResponse
 import com.assignment.listassignment.ui.news.adapter.NewsListAdapter
+import com.assignment.listassignment.utill.*
 import com.assignment.listassignment.utill.Utility.isNetworkAvailable
-import com.assignment.listassignment.utill.showToast
 import com.assignment.listassignment.widget.loader.UtilLoader
 import kotlinx.android.synthetic.main.toolbar.view.*
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(),NewsListAdapter.ItemClickListener {
     lateinit var viewModel: NewsViewModel
     private lateinit var adapter: NewsListAdapter
     private lateinit var mUtilLoader: UtilLoader
+  lateinit var allList: ArrayList<ItemList>
     private var previousSelected = -1
     private var onClick = false
     var swipeCount = 0
@@ -38,14 +40,14 @@ lateinit var search:String
         search="Android"
         init()
         attachObserver()
-        callAPI()
+        callAPI(search)
 
 
         binding.swipeRefreshLayout.setOnRefreshListener {
 
             swipeCount += 1;
             if (swipeCount > 0) {
-                callAPI()
+                callAPI(search)
             }
             adapter.notifyDataSetChanged()
 
@@ -56,19 +58,20 @@ lateinit var search:String
 
         binding.svSearch.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
-       // binding.svSearch.setOnQueryTextListener(SearchView.OnQueryTextListener)
-        /*searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+
+        binding.svSearch.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    callAPI(newText)
+                }
+                return false
             }
-        });*/
+
+        })
 
 
     }
@@ -87,11 +90,11 @@ lateinit var search:String
     /**
      * call apis
      */
-    private fun callAPI() {
+    private fun callAPI(searchData:String) {
         if (isNetworkAvailable(this@MainActivity)) {
             viewModel.callNewsListApi(
                 this@MainActivity,
-                search
+                searchData
             )
         } else {
             noNewsFound()
@@ -132,6 +135,7 @@ lateinit var search:String
                                 when {
                                     it.items == null -> noNewsFound()
                                     it.items!!.size > 0 -> {
+                                        allList= it.items!!
                                         binding.tvRecordFound.visibility = View.GONE
                                         binding.rvNews.visibility = View.VISIBLE
                                         adapter =
@@ -181,6 +185,17 @@ lateinit var search:String
             if (position != previousSelected) {
                 previousSelected = position
             }
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(PRO_NAME, allList[position].name)
+            intent.putExtra(PROJECT_LINK, allList[position].htmlUrl)
+            intent.putExtra(PRO_DESC, allList[position].description)
+            intent.putExtra(PRO_COTRIBUTOR_URL, allList[position].contributorsUrl)
+            intent.putExtra(PRO_IMG, allList[position].owner?.avatarUrl)
+            this.startActivity(intent)
+            this.overridePendingTransition(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left
+            )  // for open
 
             // binding.idToolbar.tvTitle.text=data.title
 

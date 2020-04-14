@@ -7,5 +7,7 @@
     <string name="item_element_text">This is element #</string>
     <string name="middle">This is the middle!</string>
     <string name="watcher_txt">Watcher\'s count</string>
+    <string name="project_link_txt">Project Link</string>
+    <string name="project_desc">Description</string>
 
 </resources>

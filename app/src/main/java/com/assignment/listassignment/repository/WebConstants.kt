@@ -15,7 +15,9 @@ class WebConstants {
          * Do not try to change below constant texts those are related to web service call
          */
         //Apis
-        const val GIT_LIST = "repositories"
+         var GIT_LIST = "https://api.github.com/search/repositories"
+
+        var flagBaseAPI:Boolean=false
 
 
 

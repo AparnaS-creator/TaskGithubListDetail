@@ -141,6 +141,15 @@ fun showImage(imageView: ImageView, pic: String, placeholder: Int) {
 }
 
 
+fun replaceString(str1:String):String{
+    var str = str1
+    val oldValue = "https://api.github.com/search/"
+    val newValue = ""
+
+    return( str.replace(oldValue, newValue))
+}
+
+
 
 
 
